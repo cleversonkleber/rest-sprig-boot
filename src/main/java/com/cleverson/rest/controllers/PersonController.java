@@ -1,10 +1,10 @@
 package com.cleverson.rest.controllers;
 
-import com.cleverson.rest.exceptions.UnsupportMathOperationException;
 import com.cleverson.rest.model.Person;
 import com.cleverson.rest.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,12 +21,15 @@ public class PersonController {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Person findById(@PathVariable(value = "id")  Long id) throws Exception {
-        System.out.println("Person ID="+id);
-       return service.findById(id);
+    public ResponseEntity<Person> findById(@PathVariable(value = "id")  Long id){
+        try {
+            return ResponseEntity.ok(service.findById(id));
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @RequestMapping(method = RequestMethod.POST,
+    @PostMapping(
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -41,20 +44,24 @@ public class PersonController {
         return service.findAll();
     }
 
-    @RequestMapping(method = RequestMethod.PUT,
-                    consumes = MediaType.APPLICATION_JSON_VALUE,
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
                     produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Person update(@RequestBody Person person){
-        return service.update(person);
+    public ResponseEntity<Person> update(@RequestBody Person person){
+          try {
+            return ResponseEntity.ok(service.update(person));
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+        
     }
 
-    @RequestMapping(value = "/{id}", 
-                    method = RequestMethod.DELETE
-    )
-    public void delete(@PathVariable(value = "id") Long id){
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id){
         service.delete(id);
+        return ResponseEntity.noContent().build();
     }
+
 
 
 
