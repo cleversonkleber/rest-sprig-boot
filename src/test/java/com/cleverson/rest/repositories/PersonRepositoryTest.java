@@ -4,8 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import com.cleverson.rest.integrationstests.testcontainers.AbstractIntegrationTest;
 import com.cleverson.rest.model.Person;
 
 import java.util.List;
@@ -14,7 +16,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-public class PersonRepositoryTest {
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+public class PersonRepositoryTest extends AbstractIntegrationTest {
 
     @Autowired
     private PersonRepository personRepository;
@@ -29,7 +32,7 @@ public class PersonRepositoryTest {
    
     @DisplayName("Display Name")
     @Test
-    void testGivenPersonObject_wheSave_thenReturnSavePerson(){
+    public void testGivenPersonObject_wheSave_thenReturnSavePerson() {
         //Given / Arrange
         // When / Act
         // Then / Assert
@@ -47,7 +50,7 @@ public class PersonRepositoryTest {
 
     @DisplayName("Display list person")
     @Test
-    void testGivenPersonList_whenFindAll_thenReturnPersonList(){
+    public void testGivenPersonList_whenFindAll_thenReturnPersonList(){
         //Given / Arrange
         // When / Act
         // Then / Assert
@@ -67,7 +70,7 @@ public class PersonRepositoryTest {
     }
     @DisplayName("Display list person")
     @Test
-    void testGivenPersonObject_whenFindById_thenReturnPersonObject(){
+    public void testGivenPersonObject_whenFindById_thenReturnPersonObject(){
         //Given / Arrange
         // When / Act
         // Then / Assert
@@ -86,7 +89,7 @@ public class PersonRepositoryTest {
 
     @DisplayName("Given Person Object when findByEmail then Return Person Object")
     @Test
-    void testGivenPersonObject_whenFindByAdrreess_thenReturnPersonObject(){
+    public void testGivenPersonObject_whenFindByAdrreess_thenReturnPersonObject(){
         //Given / Arrange
         // When / Act
         // Then / Assert
@@ -104,7 +107,7 @@ public class PersonRepositoryTest {
 
     @DisplayName("Given Person Object when Update then Return Update Person Object")
     @Test
-    void testGivenPersonObject_whenUpdatePerson_thenReturnPersonObject(){
+    public void testGivenPersonObject_whenUpdatePerson_thenReturnPersonObject(){
         //Given / Arrange
         // When / Act
         // Then / Assert
@@ -127,7 +130,7 @@ public class PersonRepositoryTest {
 
     @DisplayName("Given Person Object when Delete then Return remove Person")
     @Test
-    void testGivenPersonObject_whenDeletePerson_thenRemovePerson(){
+    public void testGivenPersonObject_whenDeletePerson_thenRemovePerson(){
         //Given / Arrange
         // When / Act
         // Then / Assert
@@ -147,7 +150,7 @@ public class PersonRepositoryTest {
 
     @DisplayName("Given Person Object when JPQL then Return person Person")
     @Test
-    void testGivenPersonObject_whenFindJPQL_thenReturnPersonObject(){
+    public void testGivenPersonObject_whenFindJPQL_thenReturnPersonObject(){
         //Given / Arrange
         // When / Act
         // Then / Assert
@@ -168,7 +171,7 @@ public class PersonRepositoryTest {
 
     @DisplayName("Given Person Object when JPQLParameters then Return person Person")
     @Test
-    void testGivenPersonObject_whenFindJPQLParameter_thenReturnPersonObject(){
+    public void testGivenPersonObject_whenFindJPQLParameter_thenReturnPersonObject(){
         //Given / Arrange
         // When / Act
         // Then / Assert
@@ -187,7 +190,7 @@ public class PersonRepositoryTest {
     }
     @DisplayName("Given Person Object when JPQLParameters then Return person Person")
     @Test
-    void testGivenPersonObject_whenFindNativeSQL_thenReturnPersonObject(){
+    public void testGivenPersonObject_whenFindNativeSQL_thenReturnPersonObject(){
         //Given / Arrange
         // When / Act
         // Then / Assert
@@ -207,7 +210,7 @@ public class PersonRepositoryTest {
 
     @DisplayName("Given Person Object when Native sql Parameters then Return person Person")
     @Test
-    void testGivenPersonObject_whenFindNativeSQLNameParameters_thenReturnPersonObject(){
+    public void testGivenPersonObject_whenFindNativeSQLNameParameters_thenReturnPersonObject(){
         //Given / Arrange
         // When / Act
         // Then / Assert
