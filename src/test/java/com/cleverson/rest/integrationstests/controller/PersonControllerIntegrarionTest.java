@@ -18,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.cleverson.rest.config.TestConfigs;
 import com.cleverson.rest.integrationstests.testcontainers.AbstractIntegrationTest;
 import com.cleverson.rest.model.Person;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -41,7 +42,7 @@ public class PersonControllerIntegrarionTest extends AbstractIntegrationTest{
       objectMapper = new ObjectMapper();
       objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
       specification = new RequestSpecBuilder()
-                      .setBasePath("")
+                      .setBasePath("/person")
                       .setPort(TestConfigs.SERVER_PORT)
                            .addFilter(new RequestLoggingFilter(LogDetail.ALL))
                            .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
@@ -49,15 +50,15 @@ public class PersonControllerIntegrarionTest extends AbstractIntegrationTest{
         person = new Person("Cleverson", "Silva", "a@a.com", "male");
    }
    
-   @DisplayName("Junit integration for Given Create Person Object When Should Person then Return Person Object")
-   @Order(1)
    @Test
-   public void integrationTestGivenPersonObject_when_CreatePerson_ShouldReturnAPersonObject() throws JsonMappingException, JsonProcessingException {
+   @Order(1)
+   @DisplayName("Junit integration for Given Create Person Object When Should Person then Return Person Object")
+   void integrationTestGivenPersonObject_when_CreatePerson_ShouldReturnAPersonObject() throws JsonMappingException, JsonProcessingException {
        var content = given().spec(specification)
             .contentType(TestConfigs.CONTENT_TYPE_JSON)
             .body(person)
             .when()
-                .get()
+                .post()
             .then()
                 .statusCode(200)
             .extract()
