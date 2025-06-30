@@ -82,4 +82,38 @@ public class PersonControllerIntegrarionTest extends AbstractIntegrationTest{
 
     }
 
+   @Test
+   @Order(1)
+   @DisplayName("Junit integration for Given Update Person Object When Update one Person then Return Person Object")
+   void integrationTestGivenPersonObject_when_UpdateOnePerson_ShouldReturnAUpdatePersonObject() throws JsonMappingException, JsonProcessingException {
+      person.setFirstName("Jose");
+      person.setAddress("jose@jose.com");
+      var content = given().spec(specification)
+            .contentType(TestConfigs.CONTENT_TYPE_JSON)
+            .body(person)
+            .when()
+                .put()
+            .then()
+                .statusCode(200)
+            .extract()
+                .body()
+                    .asString();
+      Person createdPerson = objectMapper.readValue(content, Person.class);
+      person =  createdPerson;
+      assertNotNull(createdPerson);
+      assertNotNull(createdPerson.getFirstName());
+      assertNotNull(createdPerson.getLastName());
+      assertNotNull(createdPerson.getAddress());
+      assertNotNull(createdPerson.getGender());
+
+      assertTrue(createdPerson.getId() > 0);
+      assertEquals("Jose",createdPerson.getFirstName());
+      assertEquals("Silva", createdPerson.getLastName());
+      assertEquals("jose@jose.com", createdPerson.getAddress());
+      assertEquals("male",createdPerson.getGender());
+
+
+
+    }
+
 }
