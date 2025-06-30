@@ -155,7 +155,7 @@ public class PersonControllerIntegrarionTest extends AbstractIntegrationTest{
     }
 
    @Test
-   @Order(3)
+   @Order(4)
    @DisplayName("Junit integration Given Person Object When findAll should then Return a PersonsList")
    void integrationTest_when_findAll_ShouldReturnAPersonList() throws JsonMappingException, JsonProcessingException {
 
@@ -210,6 +210,21 @@ public class PersonControllerIntegrarionTest extends AbstractIntegrationTest{
 
 
 
+
+    }
+
+
+   @Test
+   @Order(4)
+   @DisplayName("Junit integration for Given delete Person Object When delete then person Return NoContent")
+   void integrationTest_when_delete_ShouldReturnNoContent() throws JsonMappingException, JsonProcessingException {
+
+      given().spec(specification)
+            .pathParam("id", person.getId())
+            .when()
+                .delete("{id}")
+            .then()
+                .statusCode(204);
 
     }
 
