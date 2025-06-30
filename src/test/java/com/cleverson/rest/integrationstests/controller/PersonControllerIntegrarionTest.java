@@ -83,7 +83,7 @@ public class PersonControllerIntegrarionTest extends AbstractIntegrationTest{
     }
 
    @Test
-   @Order(1)
+   @Order(2)
    @DisplayName("Junit integration for Given Update Person Object When Update one Person then Return Person Object")
    void integrationTestGivenPersonObject_when_UpdateOnePerson_ShouldReturnAUpdatePersonObject() throws JsonMappingException, JsonProcessingException {
       person.setFirstName("Jose");
@@ -111,6 +111,40 @@ public class PersonControllerIntegrarionTest extends AbstractIntegrationTest{
       assertEquals("Silva", createdPerson.getLastName());
       assertEquals("jose@jose.com", createdPerson.getAddress());
       assertEquals("male",createdPerson.getGender());
+
+
+
+    }
+
+
+   @Test
+   @Order(3)
+   @DisplayName("Junit integration for Given findById Person Object When findById then Return Person Object")
+   void integrationTestGivenPersonObject_when_findById_ShouldReturnAPersonObject() throws JsonMappingException, JsonProcessingException {
+
+      var content = given().spec(specification)
+            .pathParam("id", person.getId())
+            .when()
+                .get("{id}")
+            .then()
+                .statusCode(200)
+            .extract()
+                .body()
+                    .asString();
+      Person createdPerson = objectMapper.readValue(content, Person.class);
+
+      assertNotNull(createdPerson);
+      assertNotNull(createdPerson.getFirstName());
+      assertNotNull(createdPerson.getLastName());
+      assertNotNull(createdPerson.getAddress());
+      assertNotNull(createdPerson.getGender());
+
+      assertTrue(createdPerson.getId() > 0);
+      assertEquals("Jose",createdPerson.getFirstName());
+      assertEquals("Silva", createdPerson.getLastName());
+      assertEquals("jose@jose.com", createdPerson.getAddress());
+      assertEquals("male",createdPerson.getGender());
+
 
 
 
