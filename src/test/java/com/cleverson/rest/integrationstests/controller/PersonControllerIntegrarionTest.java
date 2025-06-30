@@ -8,6 +8,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
+import java.util.List;
+
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
@@ -144,6 +148,65 @@ public class PersonControllerIntegrarionTest extends AbstractIntegrationTest{
       assertEquals("Silva", createdPerson.getLastName());
       assertEquals("jose@jose.com", createdPerson.getAddress());
       assertEquals("male",createdPerson.getGender());
+
+
+
+
+    }
+
+   @Test
+   @Order(3)
+   @DisplayName("Junit integration Given Person Object When findAll should then Return a PersonsList")
+   void integrationTest_when_findAll_ShouldReturnAPersonList() throws JsonMappingException, JsonProcessingException {
+
+      var anotherPerson = new Person("Gabriel", "Joaquim", "gab@gab.com", "male");
+
+      given().spec(specification)
+            .contentType(TestConfigs.CONTENT_TYPE_JSON)
+            .body(anotherPerson)
+            .when()
+                .post()
+            .then()
+                .statusCode(200);
+
+      var content = given().spec(specification)
+            .when()
+                .get()
+            .then()
+                .statusCode(200)
+            .extract()
+                .body()
+                    .asString();
+      Person[] myPersons = objectMapper.readValue(content, Person[].class);
+      List<Person> persons =  Arrays.asList(myPersons);
+      
+      Person foundPersonOne = persons.get(0);
+
+      assertNotNull(foundPersonOne);
+      assertNotNull(foundPersonOne.getFirstName());
+      assertNotNull(foundPersonOne.getLastName());
+      assertNotNull(foundPersonOne.getAddress());
+      assertNotNull(foundPersonOne.getGender());
+
+      assertTrue(foundPersonOne.getId() > 0);
+      assertEquals("Jose",foundPersonOne.getFirstName());
+      assertEquals("Silva", foundPersonOne.getLastName());
+      assertEquals("jose@jose.com", foundPersonOne.getAddress());
+      assertEquals("male",foundPersonOne.getGender());
+
+      Person foundPersonTwo = persons.get(1);
+
+      assertNotNull(foundPersonTwo);
+      assertNotNull(foundPersonTwo.getFirstName());
+      assertNotNull(foundPersonTwo.getLastName());
+      assertNotNull(foundPersonTwo.getAddress());
+      assertNotNull(foundPersonTwo.getGender());
+
+      assertTrue(foundPersonTwo.getId() > 0);
+      assertEquals("Gabriel",foundPersonTwo.getFirstName());
+      assertEquals("Joaquim", foundPersonTwo.getLastName());
+      assertEquals("gab@gab.com", foundPersonTwo.getAddress());
+      assertEquals("male",foundPersonTwo.getGender());
 
 
 
